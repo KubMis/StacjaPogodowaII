@@ -4,34 +4,46 @@ import { Component, OnInit } from '@angular/core';
 interface WeatherForecast {
   date: string;
   temperatureC: number;
-  temperatureF: number;
   summary: string;
+  humidity: number;
+  windSpeed: number;
+  location: string;
 }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  public forecasts: { [location: string]: WeatherForecast[] } = {};
+  public locations: string[] = ["NewYork", "LosAngeles", "Chicago"]; // Add your list of locations here
+  public selectedLocation: string = "NewYork"; // Default selected location
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.getForecasts();
+    this.locations.forEach(location => {
+      this.getForecasts(location);
+    });
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
+  getForecasts(location: string) {
+    this.http.get<WeatherForecast[]>(`http://localhost:7267/WeatherForecast/7Days/${location}`).subscribe(
       (result) => {
-        this.forecasts = result;
+        this.forecasts[location] = result;
       },
       (error) => {
-        console.error(error);
+        console.error(`Error fetching forecasts for ${location}:`, error);
       }
     );
   }
 
-  title = 'stacjapogodowaii.client';
+  // Method triggered when location selection changes
+  onLocationChange(selectedLocation: string) {
+    this.selectedLocation = selectedLocation; // Update the selected location
+    if (!this.forecasts[selectedLocation]) {
+      this.getForecasts(selectedLocation); // Call getForecasts if forecasts for the selected location are not available
+    }
+  }
 }

@@ -1,6 +1,6 @@
 @StacjaPogodowaII.Server_HostAddress = http://localhost:5207
 
-GET {{StacjaPogodowaII.Server_HostAddress}}/weatherforecast/
+GET {{StacjaPogodowaII.Server_HostAddress}}/WeatherForecastController/24Hours/Gdansk
 Accept: application/json
 
 ###

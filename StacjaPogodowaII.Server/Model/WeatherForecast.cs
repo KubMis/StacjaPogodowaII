@@ -1,4 +1,4 @@
-namespace StacjaPogodowaII.Server
+namespace StacjaPogodowaII.Server.Model
 {
     public class WeatherForecast
     {
@@ -8,6 +8,12 @@ namespace StacjaPogodowaII.Server
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
+        public int Humidity { get; set; }
+
+        public Double WindSpeed { get; set; }
+
         public string? Summary { get; set; }
+
+        public string? Location { get; set; }
     }
 }
