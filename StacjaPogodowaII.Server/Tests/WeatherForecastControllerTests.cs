@@ -9,7 +9,7 @@ namespace StacjaPogodowaII.Server.Tests
         private  ILogger<WeatherForecastController> _logger;
 
         [Fact]
-        public void ShouldVerifyIfLocationAndSummaryIsNotNull()
+        public void ShouldCheckIfValuesAreNotNull()
         {
             
             var Controler = new  WeatherForecastController(_logger);
@@ -18,7 +18,11 @@ namespace StacjaPogodowaII.Server.Tests
             Assert.All(result, forecast =>
             {
                 Assert.NotNull(forecast.Summary);
+                Assert.NotNull(forecast.Humidity);
+                Assert.NotNull(forecast.Date);
                 Assert.NotNull(forecast.Location);
+                Assert.NotNull(forecast.TemperatureC);
+                Assert.NotNull(forecast.WindSpeed);
             });
         }
 
